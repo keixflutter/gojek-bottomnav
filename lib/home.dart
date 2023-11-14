@@ -74,88 +74,99 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           child: Stack(
             children: [
               /// background gradasi
-              AnimatedBuilder(
-                animation: tabController.animation ?? tabController,
-                builder: (context, child) => Positioned(
-                  left: leftPosition,
-                  child: Center(
-                    child: SizedBox(
-                      width: tabWidth,
-                      height: 56,
-                      child: AnimatedOpacity(
-                        opacity: tabController.offset == 0 ? 1 : 0,
-                        duration: kThemeAnimationDuration,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.greenAccent.shade700.withOpacity(.5),
-                                Colors.greenAccent.shade700.withOpacity(0),
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              buildBackgroundGradasi(),
 
               /// indicator atas
-              AnimatedBuilder(
-                animation: tabController.animation ?? tabController,
-                builder: (context, child) => Positioned(
-                  left: leftPosition -
-                      (!tabController.offset.isNegative
-                          ? 0
-                          : calculateMargin(tabController.offset, marginValue)),
-                  right: rightPosition -
-                      (tabController.offset.isNegative
-                          ? 0
-                          : calculateMargin(tabController.offset, marginValue)),
-                  child: SizedBox(
-                    height: 8,
-                    child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.green.shade800,
-                          borderRadius: const BorderRadius.vertical(
-                              bottom: Radius.circular(32),
-                              top: Radius.circular(8)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              buildIndikatorAtas(),
 
               /// widget navigasinya
-              Row(
-                children: List.generate(
-                  tabController.length,
-                  (index) => SizedBox(
-                    height: 56,
-                    width: tabWidth,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          tabController.animateTo(index);
-                        },
-                        child: Center(
-                          child: Text(
-                            index.toString(),
-                          ),
-                        ),
-                      ),
-                    ),
+              buildNavigasi(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row buildNavigasi() {
+    return Row(
+      children: List.generate(
+        tabController.length,
+        (index) => SizedBox(
+          height: 56,
+          width: tabWidth,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                tabController.animateTo(index);
+              },
+              child: Center(
+                child: Text(
+                  index.toString(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  AnimatedBuilder buildIndikatorAtas() {
+    return AnimatedBuilder(
+      animation: tabController.animation ?? tabController,
+      builder: (context, child) => Positioned(
+        left: leftPosition -
+            (!tabController.offset.isNegative
+                ? 0
+                : calculateMargin(tabController.offset, marginValue)),
+        right: rightPosition -
+            (tabController.offset.isNegative
+                ? 0
+                : calculateMargin(tabController.offset, marginValue)),
+        child: SizedBox(
+          height: 8,
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.green.shade800,
+                borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(32), top: Radius.circular(8)),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  AnimatedBuilder buildBackgroundGradasi() {
+    return AnimatedBuilder(
+      animation: tabController.animation ?? tabController,
+      builder: (context, child) => Positioned(
+        left: leftPosition,
+        child: Center(
+          child: SizedBox(
+            width: tabWidth,
+            height: 56,
+            child: AnimatedOpacity(
+              opacity: tabController.offset == 0 ? 1 : 0,
+              duration: kThemeAnimationDuration,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.greenAccent.shade700.withOpacity(.5),
+                      Colors.greenAccent.shade700.withOpacity(0),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
