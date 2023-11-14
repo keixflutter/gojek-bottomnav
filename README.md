@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+<!-- https://github.com/feelfireff1/flutter_bottom_nav_like_gojek/blob/main/previews/example%201.jpg -->
+## Previews
+<!-- <img src="previews/example%201.jpg" alt="Example 1" > -->
+<img src="https://github.com/feelfireff1/flutter_bottom_nav_like_gojek/blob/main/previews/example%201.jpg" height="500" alt="Example 1">
+<img src="https://github.com/feelfireff1/flutter_bottom_nav_like_gojek/blob/main/previews/example%202.jpg" width="300" alt="Example 1">
 ## Getting Started
 
 This project is a starting point for a Flutter application.
