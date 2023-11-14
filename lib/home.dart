@@ -8,8 +8,18 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
+  late List<NavigationItem> pages = [
+    NavigationItem(label: 'Home', icon: Icons.home_rounded),
+    NavigationItem(label: 'Food', icon: Icons.fastfood_rounded),
+    NavigationItem(label: 'Pay', icon: Icons.payments_rounded),
+    NavigationItem(label: 'Promo', icon: Icons.discount_rounded),
+    NavigationItem(label: 'Message', icon: Icons.inbox_rounded),
+  ];
   late TabController tabController = TabController(
-      length: 5, vsync: this, animationDuration: kThemeAnimationDuration);
+    length: pages.length,
+    vsync: this,
+    animationDuration: kThemeAnimationDuration,
+  );
 
   @override
   void initState() {
@@ -48,7 +58,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
       (tabController.length -
           (tabController.index + tabController.offset + 1)) *
       tabWidth;
-  double get marginValue => screenWidth / (tabController.length * 2) - 32;
+  double get marginValue => screenWidth / (tabController.length * 2) - 4;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +90,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
               buildIndikatorAtas(),
 
               /// widget navigasinya
-              buildNavigasi(),
+              buildNavigasi(pages),
             ],
           ),
         ),
@@ -88,10 +98,10 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     );
   }
 
-  Row buildNavigasi() {
+  Row buildNavigasi(List<NavigationItem> pages) {
     return Row(
       children: List.generate(
-        tabController.length,
+        pages.length,
         (index) => SizedBox(
           height: 56,
           width: tabWidth,
@@ -102,8 +112,34 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 tabController.animateTo(index);
               },
               child: Center(
-                child: Text(
-                  index.toString(),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        pages[index].icon,
+                        color: tabController.index == index
+                            ? Colors.green.shade900
+                            : Colors.grey.shade700,
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        pages[index].label,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: tabController.index == index
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                          color: tabController.index == index
+                              ? Colors.green.shade900
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -126,7 +162,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 ? 0
                 : calculateMargin(tabController.offset, marginValue)),
         child: SizedBox(
-          height: 8,
+          height: 6,
           child: Center(
             child: Container(
               decoration: BoxDecoration(
@@ -154,11 +190,12 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
               opacity: tabController.offset == 0 ? 1 : 0,
               duration: kThemeAnimationDuration,
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
+                margin: const EdgeInsets.symmetric(horizontal: 0),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.greenAccent.shade700.withOpacity(.5),
+                      Colors.greenAccent.shade700.withOpacity(.4),
+                      Colors.greenAccent.shade700.withOpacity(0.1),
                       Colors.greenAccent.shade700.withOpacity(0),
                     ],
                     begin: Alignment.topCenter,
@@ -172,4 +209,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+class NavigationItem {
+  final String label;
+  final IconData icon;
+
+  NavigationItem({required this.label, required this.icon});
 }
